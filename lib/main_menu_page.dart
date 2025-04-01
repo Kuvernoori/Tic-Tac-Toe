@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'about_page.dart';
 import 'authors_page.dart';
-import 'scrollable_content.dart';
 
 class MainMenuPage extends StatelessWidget {
   const MainMenuPage({Key? key}) : super(key: key);
 
-  void _openPage(BuildContext context, Widget page) {
+  void _startGame(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => page),
+      MaterialPageRoute(builder: (context) => const AboutPage()),
+    );
+  }
+
+  void _showAuthors(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AuthorsPage()),
     );
   }
 
@@ -24,7 +30,7 @@ class MainMenuPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () => _openPage(context, const AboutPage()),
+              onPressed: () => _startGame(context),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 50),
                 textStyle: const TextStyle(fontSize: 18),
@@ -33,21 +39,12 @@ class MainMenuPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => _openPage(context, const AuthorsPage()),
+              onPressed: () => _showAuthors(context),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 50),
                 textStyle: const TextStyle(fontSize: 18),
               ),
               child: const Text('Authors'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => _openPage(context, const ScrollableContent()),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 50),
-                textStyle: const TextStyle(fontSize: 18),
-              ),
-              child: const Text('Game History'),
             ),
           ],
         ),
