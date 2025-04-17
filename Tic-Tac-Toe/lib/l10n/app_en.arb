@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "mainMenu": "Main Menu",
+  "goToInteractiveWidgets": "Interactive Widgets",
+  "startGame": "Start Game",
+  "aboutProject": "About Project",
+  "authors": "Authors",
+  "gameHistory": "Game History",
+  "settings": "Settings",
+  "languageEnglish": "English",
+  "languageRussian": "Russian",
+  "languageKazakh": "Кazakh",
+  "selectLanguage": "Select Language"
+  "aboutTitle": "About",
+  "aboutHeading": "About Tic Tac Toe",
+  "aboutDescription": "Tic Tac Toe is a classic game where players take turns marking a 3x3 grid with Xs and Os. The goal is to align three symbols in a row, column, or diagonal before your opponent."
+
+}

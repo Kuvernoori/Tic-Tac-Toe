@@ -1,0 +1,19 @@
+{
+  "@@locale": "ru",
+  "mainMenu": "Главное меню",
+  "goToInteractiveWidgets": "Интерактивные виджеты",
+  "startGame": "Начать игру",
+  "aboutProject": "О проекте",
+  "selectLanguage": "Выберите язык",
+
+  "authors": "Авторы",
+  "gameHistory": "История игр",
+  "settings": "Настройки",
+  "languageEnglish": "Английский",
+  "languageRussian": "Руский",
+  "languageKazakh": "Казахский",
+  "aboutTitle": "О игре",
+  "aboutHeading": "О крестиках-ноликах",
+  "aboutDescription": "Крестики-нолики — классическая игра, в которой игроки по очереди ставят символы X и O на поле 3x3. Цель — выстроить три символа в ряд, столбец или по диагонали раньше соперника."
+
+}
