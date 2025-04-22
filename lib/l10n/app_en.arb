@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "mainMenu": "Main Menu",
+  "goToInteractiveWidgets": "Interactive Widgets",
+  "startGame": "Start Game",
+  "aboutProject": "About Project",
+  "authors": "Authors",
+  "gameHistory": "Game History",
+  "settings": "Settings",
+  "languageEnglish": "English",
+  "languageRussian": "Russian",
+  "languageKazakh": "Кazakh",
+  "selectLanguage": "Select Language"
+  
+}

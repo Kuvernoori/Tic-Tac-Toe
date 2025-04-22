@@ -1,55 +1,143 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'interactive_widgets.dart';
+import 'game_page.dart';
 import 'about_page.dart';
 import 'authors_page.dart';
 import 'scrollable_content.dart';
+import 'settings_page.dart';
 
 class MainMenuPage extends StatelessWidget {
-  const MainMenuPage({Key? key}) : super(key: key);
-
-  void _openPage(BuildContext context, Widget page) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
+  const MainMenuPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tic Tac Toe'),
+        title: Text(l10n?.mainMenu ?? 'Main Menu'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () => _openPage(context, const AboutPage()),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 50),
-                textStyle: const TextStyle(fontSize: 18),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Кнопка Interactive Widgets
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const InteractiveWidgets(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                  ),
+                  child: Text(l10n?.goToInteractiveWidgets ?? 'Interactive Widgets'),
+                ),
               ),
-              child: const Text('About Game'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => _openPage(context, const AuthorsPage()),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 50),
-                textStyle: const TextStyle(fontSize: 18),
+              
+              // Кнопка Start Game
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GamePage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                  ),
+                  child: Text(l10n?.startGame ?? 'Start Game'),
+                ),
               ),
-              child: const Text('Authors'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => _openPage(context, const ScrollableContent()),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 50),
-                textStyle: const TextStyle(fontSize: 18),
+              
+              // Кнопка About Project
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AboutPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                  ),
+                  child: Text(l10n?.aboutProject ?? 'About Project'),
+                ),
               ),
-              child: const Text('Game History'),
-            ),
-          ],
+              
+              // Кнопка Authors
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AuthorsPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                  ),
+                  child: Text(l10n?.authors ?? 'Authors'),
+                ),
+              ),
+              
+              // Кнопка Game History
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ScrollableContent(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                  ),
+                  child: Text(l10n?.gameHistory ?? 'Game History'),
+                ),
+              ),
+              
+              // Кнопка Settings
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 50),
+                  ),
+                  child: Text(l10n?.settings ?? 'Settings'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

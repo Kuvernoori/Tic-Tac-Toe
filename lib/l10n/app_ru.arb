@@ -1,9 +1,15 @@
 {
-  "title": "Крестики-нолики",
+  "@@locale": "ru",
+  "mainMenu": "Главное меню",
+  "goToInteractiveWidgets": "Интерактивные виджеты",
   "startGame": "Начать игру",
   "aboutProject": "О проекте",
+  "selectLanguage": "Выберите язык",
+
   "authors": "Авторы",
+  "gameHistory": "История игр",
   "settings": "Настройки",
-  "language": "Язык",
-  "chooseLanguage": "Выберите язык"
+  "languageEnglish": "Английский",
+  "languageRussian": "Руский",
+  "languageKazakh": "Казахский"
 }
