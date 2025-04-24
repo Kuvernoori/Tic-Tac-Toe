@@ -10,34 +10,26 @@ class SettingsPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n!.settings),
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          shrinkWrap: true,
           children: [
-            Text(
-              l10n.selectLanguage,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(l10n!.selectLanguage, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            _LanguageButton(locale: const Locale('en'), label: l10n.languageEnglish, color: Colors.blue),
+            _LanguageButton(locale: const Locale('ru'), label: l10n.languageRussian, color: Colors.green),
+            _LanguageButton(locale: const Locale('kk'), label: l10n.languageKazakh, color: Colors.orange),
+            const SizedBox(height: 32),
+            Text(l10n.selectTheme, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => MyApp.setThemeMode(context, ThemeMode.light),
+              child: Text(l10n.lightTheme),
             ),
-            const SizedBox(height: 30),
-            _LanguageButton(
-              locale: const Locale('en'),
-              label: l10n.languageEnglish,
-              color: Colors.blue,
-            ),
-            const SizedBox(height: 15),
-            _LanguageButton(
-              locale: const Locale('ru'),
-              label: l10n.languageRussian,
-              color: Colors.green,
-            ),
-            const SizedBox(height: 15),
-            _LanguageButton(
-              locale: const Locale('kk'),
-              label: l10n.languageKazakh,
-              color: Colors.orange,
+            ElevatedButton(
+              onPressed: () => MyApp.setThemeMode(context, ThemeMode.dark),
+              child: Text(l10n.darkTheme),
             ),
           ],
         ),
@@ -59,22 +51,15 @@ class _LanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => MyApp.setLocale(context, locale),
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(200, 50),
-        backgroundColor: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: ElevatedButton(
+        onPressed: () => MyApp.setLocale(context, locale),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          minimumSize: const Size(200, 50),
         ),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 18,
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
-        ),
+        child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
   }

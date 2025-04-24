@@ -15,12 +15,18 @@ class MyApp extends StatefulWidget {
     state?.setLocale(locale);
   }
 
+  static void setThemeMode(BuildContext context, ThemeMode mode) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setThemeMode(mode);
+  }
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale('en');
+  ThemeMode _themeMode = ThemeMode.light;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -28,10 +34,20 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void setThemeMode(ThemeMode mode) {
+    setState(() {
+      _themeMode = mode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tic Tac Toe',
+      locale: _locale,
+      themeMode: _themeMode,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -43,7 +59,6 @@ class _MyAppState extends State<MyApp> {
         Locale('ru'),
         Locale('kk'),
       ],
-      locale: _locale,
       home: const MainMenuPage(),
     );
   }
