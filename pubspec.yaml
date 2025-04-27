@@ -12,11 +12,19 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  # Firebase зависимости
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.19.0
+  cloud_firestore: ^4.17.0
+
+  # State Management (опционально для удобства)
+  provider: ^6.1.2
+
 dev_dependencies:
-  build_runner: ^2.1.5  # Добавили build_runner
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
+  build_runner: ^2.1.5
 
 flutter:
   uses-material-design: true

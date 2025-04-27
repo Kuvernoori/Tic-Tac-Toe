@@ -1,6 +1,23 @@
+plugins {
+    id("com.android.application")
+    id("com.google.gms.google-services")  // Добавляем плагин для Firebase
+}
+
+dependencies {
+    // Импортируем Firebase BoM (Bill of Materials)
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+
+    // Добавляем зависимости для нужных Firebase продуктов
+    implementation("com.google.firebase:firebase-analytics")
+
+    // Здесь можно добавлять другие зависимости Firebase, например:
+    // implementation("com.google.firebase:firebase-auth")
+    // implementation("com.google.firebase:firebase-firestore")
+}
+
 allprojects {
     repositories {
-        google()
+        google()  // Используем репозиторий Google для загрузки зависимостей
         mavenCentral()
     }
 }
@@ -12,10 +29,10 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
-subprojects {
-    project.evaluationDependsOn(":app")
-}
 
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+apply plugin: 'com.google.gms.google-services'
+
