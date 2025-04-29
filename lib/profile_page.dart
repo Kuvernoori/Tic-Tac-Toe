@@ -71,27 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Email: ${user!.email}', style: const TextStyle(fontSize: 18)),
-          const SizedBox(height: 20),
-          const Text('Select Language:', style: TextStyle(fontSize: 16)),
-          DropdownButton<String>(
-            value: selectedLanguage,
-            items: const [
-              DropdownMenuItem(value: 'en', child: Text('English')),
-              DropdownMenuItem(value: 'ru', child: Text('Russian')),
-              DropdownMenuItem(value: 'kk', child: Text('Kazakh')),
-            ],
-            onChanged: _changeLanguage,
-          ),
-          const SizedBox(height: 20),
-          const Text('Select Theme:', style: TextStyle(fontSize: 16)),
-          DropdownButton<ThemeMode>(
-            value: selectedTheme,
-            items: const [
-              DropdownMenuItem(value: ThemeMode.light, child: Text('Light')),
-              DropdownMenuItem(value: ThemeMode.dark, child: Text('Dark')),
-            ],
-            onChanged: _changeTheme,
-          ),
+
+         
           const SizedBox(height: 40),
           ElevatedButton(
             onPressed: _logout,
