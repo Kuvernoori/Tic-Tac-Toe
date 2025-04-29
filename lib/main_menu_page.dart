@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'about_page.dart';
 import 'settings_page.dart';
-import 'game_page.dart'; // <-- добавим
+import 'game_page.dart';
+import 'profile_page.dart';
+import 'auth_service.dart'; // добавим для signInWithGoogle
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainMenuPage extends StatefulWidget {
-  const MainMenuPage({super.key});
+  final User? user;
+  const MainMenuPage({super.key, this.user});
 
   @override
   State<MainMenuPage> createState() => _MainMenuPageState();
@@ -13,17 +17,52 @@ class MainMenuPage extends StatefulWidget {
 
 class _MainMenuPageState extends State<MainMenuPage> {
   int _selectedIndex = 0;
+  User? _user;
 
-  final List<Widget> _pages = const [
-    GamePage(), // <- Заменили на GamePage
-    AboutPage(),
-    SettingsPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _user = widget.user;
+  }
+
+  List<Widget> get _pages {
+    List<Widget> pages = [
+      const GamePage(),
+      const AboutPage(),
+    ];
+    if (_user != null) {
+      pages.add(const SettingsPage());
+      pages.add(const ProfilePage());
+    }
+    return pages;
+  }
+
+  List<BottomNavigationBarItem> get _navItems {
+    final l10n = AppLocalizations.of(context);
+    List<BottomNavigationBarItem> items = [
+      BottomNavigationBarItem(icon: const Icon(Icons.videogame_asset), label: l10n?.game ?? 'Game'),
+      BottomNavigationBarItem(icon: const Icon(Icons.info), label: l10n?.aboutProject ?? 'About'),
+    ];
+    if (_user != null) {
+      items.add(BottomNavigationBarItem(icon: const Icon(Icons.settings), label: l10n?.settings ?? 'Settings'));
+      items.add(BottomNavigationBarItem(icon: const Icon(Icons.person), label: l10n?.profile ?? 'Profile'));
+    }
+    return items;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Future<void> _handleSignIn() async {
+    User? signedInUser = await AuthService.signInWithGoogle();
+    if (signedInUser != null) {
+      setState(() {
+        _user = signedInUser;
+      });
+    }
   }
 
   @override
@@ -33,17 +72,47 @@ class _MainMenuPageState extends State<MainMenuPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n?.mainMenu ?? 'Main Menu'),
+        actions: _user == null
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.login),
+                  tooltip: l10n?.signIn ?? 'Sign In',
+                  onPressed: _handleSignIn,
+                ),
+              ]
+            : null,
       ),
-      body: _pages[_selectedIndex],
+      body: Column(
+        children: [
+          if (_user == null)
+            Container(
+              width: double.infinity,
+              color: Colors.amber,
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  Text(
+                    l10n?.guestModeBanner ?? 'You are in guest mode. Please sign in to access all features.',
+                    style: const TextStyle(color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton.icon(
+                    onPressed: _handleSignIn,
+                    icon: const Icon(Icons.login),
+                    label: Text(l10n?.signIn ?? 'Sign In'),
+                  ),
+                ],
+              ),
+            ),
+          Expanded(child: _pages[_selectedIndex]),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.videogame_asset), label: l10n?.game ?? 'Game'),
-          BottomNavigationBarItem(icon: Icon(Icons.info), label: l10n?.aboutProject ?? 'About'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: l10n?.settings ?? 'Settings'),
-
-        ],
+        items: _navItems,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }

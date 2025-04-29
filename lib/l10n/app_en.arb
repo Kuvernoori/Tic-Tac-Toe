@@ -23,6 +23,8 @@
   "courseInfo": "The project was created as part of the “Cross-platform development” course at Astana IT University.",
   "mentor": "Supervisor: Assistant Professor Abzal Kyzyrkanov",
   "game": "Game",
-  "gameDescription": "This is a simple cross-platform Tic Tac Toe game developed using Flutter. The game supports both landscape and portrait orientations and provides a clean and responsive UI."
-  
+  "gameDescription": "This is a simple cross-platform Tic Tac Toe game developed using Flutter. The game supports both landscape and portrait orientations and provides a clean and responsive UI.",
+  "profile": "Profile",
+  "guestModeBanner": "You are in guest mode. Please sign in to access all features.",
+  "signIn": "Sign In"
 }

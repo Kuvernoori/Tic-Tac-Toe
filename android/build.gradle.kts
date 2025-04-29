@@ -3,6 +3,12 @@ plugins {
     id("com.google.gms.google-services")  // Добавляем плагин для Firebase
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 dependencies {
     // Импортируем Firebase BoM (Bill of Materials)
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
@@ -33,6 +39,4 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
-
-apply plugin: 'com.google.gms.google-services'
 

@@ -6,9 +6,26 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'main_menu_page.dart';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:firebase_core/firebase_core.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Инициализация Firebase
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyCRjerOwN5IMlNoB0DDywZy6Ihwtt3dEyc',
+        authDomain: 'crossplatform-40468.firebaseapp.com',
+        projectId: 'crossplatform-40468',
+        storageBucket: 'crossplatform-40468.appspot.com',
+        messagingSenderId: '685868976880',
+        appId: '1:685868976880:android:361bea8390587b93e51035',
+        measurementId: 'G-XXXXXXXXXX', // Measurement ID not provided, placeholder used
+      ),
+    );
+  } else {
+    await Firebase.initializeApp(); // Инициализация Firebase
+  }
   runApp(const MyApp());
 }
 
@@ -38,6 +55,19 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _initializeUserSettings();
+    FirebaseAuth.instance.userChanges().listen((user) {
+      setState(() {
+        _user = user;
+      });
+      if (user != null) {
+        _loadUserPreferences(user);
+      } else {
+        setState(() {
+          _locale = const Locale('en');
+          _themeMode = ThemeMode.light;
+        });
+      }
+    });
   }
 
   // Инициализация настроек пользователя при старте
@@ -48,6 +78,10 @@ class _MyAppState extends State<MyApp> {
         _user = user;
       });
       _loadUserPreferences(user);
+    } else {
+      setState(() {
+        _user = null;
+      });
     }
   }
 
@@ -107,7 +141,7 @@ class _MyAppState extends State<MyApp> {
         Locale('ru'),
         Locale('kk'),
       ],
-      home: _user != null ? const MainMenuPage() : const Center(child: CircularProgressIndicator()),
+      home: MainMenuPage(user: _user),
     );
   }
 }
