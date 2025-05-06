@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "685868976880",
-    "project_id": "crossplatform-40468",
-    "storage_bucket": "crossplatform-40468.firebasestorage.app"
+    "project_number": "356017861010",
+    "project_id": "tictac-45488",
+    "storage_bucket": "tictac-45488.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:685868976880:android:361bea8390587b93e51035",
+        "mobilesdk_app_id": "1:356017861010:android:e667cf23c047edaac8914b",
         "android_client_info": {
           "package_name": "com.aitu.tictactoe"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCRjerOwN5IMlNoB0DDywZy6Ihwtt3dEyc"
+          "current_key": "AIzaSyCTop2gp3r9R468X49NMY8o-bXgQyqsOEE"
         }
       ],
       "services": {

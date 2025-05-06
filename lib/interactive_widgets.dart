@@ -9,7 +9,7 @@ class InteractiveWidgets extends StatefulWidget {
 
 class _InteractiveWidgetsState extends State<InteractiveWidgets> {
   bool _showText = true;
-  List<String> _items = [];
+  final List<String> _items = [];
 
   void _toggleText() {
     setState(() {
@@ -40,7 +40,7 @@ class _InteractiveWidgetsState extends State<InteractiveWidgets> {
         if (_showText)
           const Text('Этот текст можно спрятать'),
         const SizedBox(height: 20),
-        ..._items.map((e) => Text(e)).toList(),
+        ..._items.map((e) => Text(e)),
       ],
     );
   }

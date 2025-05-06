@@ -2,13 +2,15 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
+    id("org.jetbrains.kotlin.android")
+
     id("com.google.gms.google-services") // ДОБАВЛЕНО
 }
 
 android {
-    namespace = "com.example.flutter_application_1" // <-- проверь, чтобы совпадало с Firebase
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    namespace = "com.aitu.tictactoe" // <-- проверь, чтобы совпадало с Firebase
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -20,9 +22,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.flutter_application_1" // <-- проверь здесь тоже!
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        applicationId = "com.aitu.tictactoe" // <-- проверь здесь тоже!
+        minSdk = 23
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -44,5 +46,4 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
 }
-apply plugin: 'com.google.gms.google-services'
 

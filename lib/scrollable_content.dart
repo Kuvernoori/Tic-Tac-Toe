@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ScrollableContent extends StatelessWidget {
-  const ScrollableContent({Key? key}) : super(key: key);
+  const ScrollableContent({super.key});
 
   @override
   Widget build(BuildContext context) {
