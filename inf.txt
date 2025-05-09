@@ -1,0 +1,11 @@
+"aboutTitle": "About",
+  "aboutHeading": "About Tic Tac Toe",
+  "aboutDescription": "Tic Tac Toe is a classic game where players take turns marking a 3x3 grid with Xs and Os. The goal is to align three symbols in a row, column, or diagonal before your opponent."
+
+  "aboutTitle": "О игре",
+  "aboutHeading": "О крестиках-ноликах",
+  "aboutDescription": "Крестики-нолики — классическая игра, в которой игроки по очереди ставят символы X и O на поле 3x3. Цель — выстроить три символа в ряд, столбец или по диагонали раньше соперника."
+
+  "aboutTitle": "Ойын туралы",
+  "aboutHeading": "Крестиктер мен нөлдіктер ойыны туралы",
+  "aboutDescription": "Крестиктер мен нөлдіктер — бұл ойыншылар 3x3 торға кезек-кезек X және O таңбаларын қойып ойнайтын классикалық ойын. Мақсат — қарсыласыңнан бұрын қатарынан, бағаннан немесе диагональ бойынша үш таңбаны орналастыру."
