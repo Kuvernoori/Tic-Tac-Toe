@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -23,9 +24,9 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Game')),
+      appBar: AppBar(title: Text(l10n?.tic_tac_toe ?? 'Tic Tac Toe' )),
       body: GridView.builder(
         padding: const EdgeInsets.all(20),
         itemCount: 9,

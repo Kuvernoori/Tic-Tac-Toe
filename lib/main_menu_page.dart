@@ -23,39 +23,45 @@ class _MainMenuPageState extends State<MainMenuPage> {
   void initState() {
     super.initState();
     _user = widget.user;
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (mounted) {
+        setState(() {
+          _user = user;
+          // Reset selected index when auth state changes
+          _selectedIndex = 0;
+        });
+      }
+    });
   }
 
   List<Widget> get _pages {
-    List<Widget> pages = [
+    return [
       const GamePage(),
       const AboutPage(),
+      if (_user != null) const SettingsPage(),
+      if (_user != null) const ProfilePage(),
     ];
-    if (_user != null) {
-      pages.add(const SettingsPage());
-      pages.add(const ProfilePage());
-    }
-    return pages;
   }
 
   List<BottomNavigationBarItem> get _navItems {
     final l10n = AppLocalizations.of(context);
-    List<BottomNavigationBarItem> items = [
+    return [
       BottomNavigationBarItem(icon: const Icon(Icons.videogame_asset), label: l10n?.game ?? 'Game'),
       BottomNavigationBarItem(icon: const Icon(Icons.info), label: l10n?.aboutProject ?? 'About'),
+      if (_user != null) BottomNavigationBarItem(icon: const Icon(Icons.settings), label: l10n?.settings ?? 'Settings'),
+      if (_user != null) BottomNavigationBarItem(icon: const Icon(Icons.person), label: l10n?.profile ?? 'Profile'),
     ];
-    if (_user != null) {
-      items.add(BottomNavigationBarItem(icon: const Icon(Icons.settings), label: l10n?.settings ?? 'Settings'));
-      items.add(BottomNavigationBarItem(icon: const Icon(Icons.person), label: l10n?.profile ?? 'Profile'));
-    }
-    return items;
   }
 
   void _onItemTapped(int index) {
+    // Ensure index is valid
+    final validIndex = index.clamp(0, _navItems.length - 1);
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = validIndex;
     });
   }
 
+  
   Future<void> _handleSignIn() async {
     User? signedInUser = await AuthService.signInWithGoogle();
     if (signedInUser != null) {

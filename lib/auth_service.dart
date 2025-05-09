@@ -5,40 +5,55 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Регистрация по email
+  // Email registration
   Future<User?> registerWithEmailAndPassword(String email, String password) async {
     try {
-      final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      final userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print("Registered user: ${userCredential.user?.displayName ?? userCredential.user?.email}");
       return userCredential.user;
     } catch (e) {
-      print('Ошибка при регистрации: $e');
+      print('Registration error: $e');
       return null;
     }
   }
 
-  // Вход по email
+  // Email sign-in
   Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print("Signed in user: ${userCredential.user?.displayName ?? userCredential.user?.email}");
       return userCredential.user;
     } catch (e) {
-      print('Ошибка при входе: $e');
+      print('Sign-in error: $e');
       return null;
     }
   }
 
-  // Вход через Google (Web + Mobile)
+  // Google sign-in (Web + Mobile)
   static Future<User?> signInWithGoogle() async {
     try {
       if (kIsWeb) {
         // Web sign-in
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
         UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(googleProvider);
-        return userCredential.user;
+        User? user = userCredential.user;
+        if (user != null) {
+          print("Web Google sign-in: ${user.displayName}, ${user.email}");
+        }
+        return user;
       } else {
         // Mobile sign-in
         final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-        if (googleUser == null) return null;
+        if (googleUser == null) {
+          print("Google sign-in aborted by user.");
+          return null;
+        }
 
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
         final credential = GoogleAuthProvider.credential(
@@ -47,22 +62,31 @@ class AuthService {
         );
 
         UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-        return userCredential.user;
+        User? user = userCredential.user;
+        if (user != null) {
+          print("Mobile Google sign-in: ${user.displayName}, ${user.email}, ${user.photoURL}");
+        }
+        return user;
       }
     } catch (e) {
-      print('Ошибка при входе через Google: $e');
+      print('Google sign-in error: $e');
       return null;
     }
   }
 
-  // Выход
+  // Sign out
   Future<void> signOut() async {
-    await _auth.signOut();
-    if (!kIsWeb) {
-      await GoogleSignIn().signOut();
+    try {
+      await _auth.signOut();
+      if (!kIsWeb) {
+        await GoogleSignIn().signOut();
+      }
+      print("User signed out.");
+    } catch (e) {
+      print("Sign-out error: $e");
     }
   }
 
-  // Слушатель изменений пользователя
+  // Auth state listener
   Stream<User?> get userChanges => _auth.userChanges();
 }

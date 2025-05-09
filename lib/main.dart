@@ -7,26 +7,36 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'main_menu_page.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:firebase_core/firebase_core.dart';
+import 'auth_service.dart';
+import 'package:provider/provider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyD61Lg3PsFEUoyHV90nhRmN0otZe1zKXFk',
-        appId: '1:356017861010:web:9fce887f8c9d9dffc8914b',
-        messagingSenderId: '356017861010',
-        projectId: 'tictac-45488',
-        authDomain: 'tictac-45488.firebaseapp.com',
-        storageBucket: 'tictac-45488.firebasestorage.app',
-        measurementId: 'G-BE2W58H95L',
+        apiKey: 'AIzaSyCRjerOwN5IMlNoB0DDywZy6Ihwtt3dEyc',
+        authDomain: 'crossplatform-40468.firebaseapp.com',
+        projectId: 'crossplatform-40468',
+        storageBucket: 'crossplatform-40468.appspot.com',
+        messagingSenderId: '685868976880',
+        appId: '1:685868976880:android:361bea8390587b93e51035',
+        measurementId: 'G-XXXXXXXXXX', // Measurement ID not provided, placeholder used
       ),
     );
   } else {
     await Firebase.initializeApp(); // Инициализация Firebase
   }
-  runApp(const MyApp());
+  runApp( Provider<AuthService>(
+      create: (_) => AuthService(), // <-- Make sure AuthService class exists
+      child: const MyApp(),
+    ),
+    );
 }
+
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

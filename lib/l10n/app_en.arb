@@ -26,5 +26,8 @@
   "gameDescription": "This is a simple cross-platform Tic Tac Toe game developed using Flutter. The game supports both landscape and portrait orientations and provides a clean and responsive UI.",
   "profile": "Profile",
   "guestModeBanner": "You are in guest mode. Please sign in to access all features.",
-  "signIn": "Sign In"
+  "signIn": "Sign In",
+  "logout" : "log out",
+  "tic_tac_toe" : "Tic Tac Toe"
+
 }
