@@ -28,6 +28,9 @@
   "guestModeBanner": "You are in guest mode. Please sign in to access all features.",
   "signIn": "Sign In",
   "logout" : "log out",
-  "tic_tac_toe" : "Tic Tac Toe"
-
+  "tic_tac_toe" : "Tic Tac Toe",
+  "playAgain": "Play Again",
+  "playerWins": "Player {player} wins!",
+  "draw": "It's a draw!",
+  "currentTurn": "Current turn: {player}"
 }

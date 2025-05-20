@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Email registration
+  
   Future<User?> registerWithEmailAndPassword(String email, String password) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(
@@ -20,7 +20,7 @@ class AuthService {
     }
   }
 
-  // Email sign-in
+
   Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
       final userCredential = await _auth.signInWithEmailAndPassword(
@@ -35,11 +35,9 @@ class AuthService {
     }
   }
 
-  // Google sign-in (Web + Mobile)
   static Future<User?> signInWithGoogle() async {
     try {
       if (kIsWeb) {
-        // Web sign-in
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
         UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(googleProvider);
         User? user = userCredential.user;
@@ -48,7 +46,6 @@ class AuthService {
         }
         return user;
       } else {
-        // Mobile sign-in
         final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
         if (googleUser == null) {
           print("Google sign-in aborted by user.");
@@ -74,7 +71,6 @@ class AuthService {
     }
   }
 
-  // Sign out
   Future<void> signOut() async {
     try {
       await _auth.signOut();
@@ -87,6 +83,5 @@ class AuthService {
     }
   }
 
-  // Auth state listener
   Stream<User?> get userChanges => _auth.userChanges();
 }

@@ -6,6 +6,7 @@ import 'game_page.dart';
 import 'profile_page.dart';
 import 'auth_service.dart'; // добавим для signInWithGoogle
 import 'package:firebase_auth/firebase_auth.dart';
+import 'loading_screen.dart'; // Add this line
 
 class MainMenuPage extends StatefulWidget {
   final User? user;
@@ -62,14 +63,40 @@ class _MainMenuPageState extends State<MainMenuPage> {
   }
 
   
-  Future<void> _handleSignIn() async {
+ // Inside _MainMenuPageState class in MainMenuPage.dart
+
+Future<void> _handleSignIn() async {
+  // Show loading screen
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => const LoadingScreen(),
+      fullscreenDialog: true, // Makes it appear as a modal
+    ),
+  );
+
+  try {
     User? signedInUser = await AuthService.signInWithGoogle();
+    
+    // Pop loading screen (whether success or failure)
+    Navigator.of(context).pop(); 
+    
     if (signedInUser != null) {
       setState(() {
-        _user = signedInUser;
+        _user = signedInUser; // Update UI
       });
+    } else {
+      // Show error if login failed
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sign-in failed')),
+      );
     }
+  } catch (e) {
+    Navigator.of(context).pop(); // Ensure loading screen is dismissed
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: $e')),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
