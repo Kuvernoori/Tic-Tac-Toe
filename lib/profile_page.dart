@@ -1,13 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:tic_tac_toe/main_menu_page.dart';
 import 'auth_service.dart';
+import 'settings_page.dart'; 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'main.dart'; // For MyApp.setLocale and setThemeMode
+import 'main.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -21,6 +20,11 @@ class _ProfilePageState extends State<ProfilePage> {
   String? selectedLanguage;
   ThemeMode? selectedTheme;
   bool initialized = false;
+
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  late List<_SearchItem> _items;
 
   @override
   void initState() {
@@ -36,6 +40,20 @@ class _ProfilePageState extends State<ProfilePage> {
       final brightness = Theme.of(context).brightness;
       selectedTheme = brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
       initialized = true;
+
+      final l10n = AppLocalizations.of(context)!;
+      _items = [
+        _SearchItem(
+          keyword: 'language',
+          localizedKeyword: l10n.language.toLowerCase(),
+          label: l10n.language,
+        ),
+        _SearchItem(
+          keyword: 'theme',
+          localizedKeyword: l10n.theme.toLowerCase(),
+          label: l10n.theme,
+        ),
+      ];
     }
   }
 
@@ -58,15 +76,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _logout() async {
-  final authService = Provider.of<AuthService>(context, listen: false);
-  await authService.signOut();
-  
-  // Clear navigation stack and go to main menu (which will now show guest UI)
-  Navigator.of(context).pushAndRemoveUntil(
-    MaterialPageRoute(builder: (context) => const MainMenuPage(user: null)),
-    (Route<dynamic> route) => false,
-  );
-}
+    final authService = Provider.of<AuthService>(context, listen: false);
+    await authService.signOut();
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const MainMenuPage(user: null)),
+      (Route<dynamic> route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -76,6 +94,11 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
+    final filteredItems = _items
+        .where((item) =>
+            item.localizedKeyword.contains(_searchQuery.toLowerCase()))
+        .toList();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -83,8 +106,38 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Text('Email: ${user!.email}', style: const TextStyle(fontSize: 18)),
 
-         
-          const SizedBox(height: 40),
+          const SizedBox(height: 20),
+
+          TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              labelText: l10n?.searchSettings ?? 'Search settings...',
+              prefixIcon: const Icon(Icons.search),
+              border: const OutlineInputBorder(),
+            ),
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value.toLowerCase();
+              });
+            },
+          ),
+
+          const SizedBox(height: 10),
+
+          if (_searchQuery.isNotEmpty && filteredItems.isNotEmpty)
+            ...filteredItems.map((item) => ListTile(
+                  title: Text(item.label),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsPage()),
+                    );
+                  },
+                )),
+
+          const Spacer(),
+
           ElevatedButton(
             onPressed: _logout,
             child: Text(l10n?.logout ?? 'Log out'),
@@ -93,4 +146,16 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+}
+
+class _SearchItem {
+  final String keyword;
+  final String localizedKeyword;
+  final String label;
+
+  _SearchItem({
+    required this.keyword,
+    required this.localizedKeyword,
+    required this.label,
+  });
 }
