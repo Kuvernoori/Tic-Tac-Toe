@@ -31,6 +31,9 @@
   "playAgain": "Играть снова",
   "playerWins": "Игрок {player} выиграл!",
   "draw": "Ничья!",
-  "currentTurn": "Текущий ход: {player}"
+  "currentTurn": "Текущий ход: {player}",
+  "language": "Язык",
+  "theme": "Тема",
+  "searchSettings": "Поиск настроек..."
 
 }

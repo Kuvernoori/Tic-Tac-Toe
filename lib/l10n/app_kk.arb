@@ -33,5 +33,8 @@
   "playAgain": "Тагы ойнау",
   "playerWins": "Ойыншы {player} жеңді!",
   "draw": "Тең ойын!",
-  "currentTurn": "Қазіргі кезек: {player}"
+  "currentTurn": "Қазіргі кезек: {player}",
+  "language": "Тіл",
+  "theme": "Тақырып",
+  "searchSettings": "Баптауларды іздеу..."
 }

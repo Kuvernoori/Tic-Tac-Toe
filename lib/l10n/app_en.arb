@@ -32,5 +32,8 @@
   "playAgain": "Play Again",
   "playerWins": "Player {player} wins!",
   "draw": "It's a draw!",
+  "language": "Language",
+  "theme": "Theme",
+  "searchSettings": "Search settings...",
   "currentTurn": "Current turn: {player}"
 }
