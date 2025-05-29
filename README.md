@@ -49,7 +49,8 @@ Download google-services.json (for Android) and GoogleService-Info.plist (for iO
 
 Enable Firebase in your pubspec.yaml dependencies.
 
-🌍 Language Support
+## 🌍 Language Support
+
 🇰🇿 Kazakh
 
 🇷🇺 Russian
@@ -63,9 +64,10 @@ Language is switchable from the Settings screen. All content is localized using 
 
 🌙 Dark Mode
 
-Theme changes are persistent and saved locally using SharedPreferences.
+### Theme changes are persistent and saved locally using SharedPreferences.
 
-🧩 Game Logic
+## 🧩 Game Logic
+
 Classic 3x3 grid
 
 Turn-based player flow
@@ -76,11 +78,13 @@ Real-time sync in online mode
 
 History saved locally (offline and online)
 
-🏛️ About Us
+## 🏛️ About Us
+
 Project: Tic-Tac-Toe Game
 Group: SE2329
 University: Astana IT University
 Year: 2025
+
 Contributors:
 
 👤 [Berkamalov Sanzhar]
