@@ -1,28 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-void main() {
-  runApp(const TicTacToeApp());
-}
-
-class TicTacToeApp extends StatelessWidget {
-  const TicTacToeApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Tic Tac Toe',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        useMaterial3: true,
-      ),
-      home: const GamePage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -37,6 +15,13 @@ class _GamePageState extends State<GamePage> {
   String? winner;
   bool gameOver = false;
 
+  Future<void> _addToGameHistory(String result) async {
+    final prefs = await SharedPreferences.getInstance();
+    final history = prefs.getStringList('gameHistory') ?? [];
+    history.add(result);
+    await prefs.setStringList('gameHistory', history);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -45,11 +30,14 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tic Tac Toe'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () => _showGameHistory(context),
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _resetGame,
@@ -59,21 +47,21 @@ class _GamePageState extends State<GamePage> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-               Text(
-  gameOver
-      ? winner != null
-          ? l10n?.playerWins(winner!) ?? 'Player $winner wins!'
-          : l10n?.draw ?? 'It\'s a draw!'
-      : l10n?.currentTurn(isXTurn ? 'X' : 'O') ?? 'Current turn: ${isXTurn ? 'X' : 'O'}',
-  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-),
-              const SizedBox(height: 20),
+                Text(
+                  gameOver
+                      ? winner != null
+                          ? 'Player $winner wins!'
+                          : 'It\'s a draw!'
+                      : 'Current turn: ${isXTurn ? 'X' : 'O'}',
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 18),
                 SizedBox(
-                  height: 300,
+                  height: 388,
                   child: GridView.builder(
                     itemCount: 9,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -84,14 +72,19 @@ class _GamePageState extends State<GamePage> {
                         onTap: () => _handleTap(index),
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
+                            border: Border.all(
+                              color: Theme.of(context).dividerColor,
+                              width: 2.0,
+                            ),
                           ),
                           child: Center(
                             child: Text(
                               board[index],
                               style: TextStyle(
                                 fontSize: 40,
-                                color: board[index] == 'X' ? Colors.blue : Colors.red,
+                                color: board[index] == 'X' 
+                                    ? Theme.of(context).colorScheme.primary 
+                                    : Theme.of(context).colorScheme.secondary,
                               ),
                             ),
                           ),
@@ -102,10 +95,10 @@ class _GamePageState extends State<GamePage> {
                 ),
                 if (gameOver)
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 18),
                     child: ElevatedButton(
                       onPressed: _resetGame,
-                      child: Text(l10n?.playAgain ?? 'Play Again'),
+                      child: const Text('Play Again'),
                     ),
                   ),
               ],
@@ -115,6 +108,28 @@ class _GamePageState extends State<GamePage> {
       ),
     );
   }
+
+  Future<void> _showGameHistory(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final history = prefs.getStringList('gameHistory') ?? [];
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text('Game History')),
+          body: ListView.builder(
+            itemCount: history.length,
+            itemBuilder: (context, index) => ListTile(
+              title: Text(history[index]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ... rest of your methods (_handleTap, _checkWinner, _resetGame, etc.) ...
+
 
   void _handleTap(int index) {
     if (board[index].isNotEmpty || gameOver) return;
@@ -143,6 +158,8 @@ class _GamePageState extends State<GamePage> {
           winner = board[combo[0]];
           gameOver = true;
         });
+
+        _addToGameHistory('Player $winner wins');
         _saveGameState();
         return;
       }
@@ -152,6 +169,7 @@ class _GamePageState extends State<GamePage> {
       setState(() {
         gameOver = true; // Draw
       });
+      _addToGameHistory('Draw');
       _saveGameState();
     }
   }

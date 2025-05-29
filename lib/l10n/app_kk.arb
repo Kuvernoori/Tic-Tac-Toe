@@ -34,7 +34,12 @@
   "playerWins": "Ойыншы {player} жеңді!",
   "draw": "Тең ойын!",
   "currentTurn": "Қазіргі кезек: {player}",
+  "gameHistoryTitle": "Ойын тарихы",
+  "emptyHistory": "Тарих бос",
   "language": "Тіл",
   "theme": "Тақырып",
-  "searchSettings": "Баптауларды іздеу..."
+  "searchSettings": "Баптауларды іздеу...",
+    "email" : "email"
+
+
 }

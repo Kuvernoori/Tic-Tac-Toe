@@ -11,6 +11,10 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  hive: ^2.0.0
+  hive_flutter: ^1.0.0
+  connectivity_plus: ^5.0.1
+  intl: any
 
   # Firebase
   firebase_core: ^2.27.0

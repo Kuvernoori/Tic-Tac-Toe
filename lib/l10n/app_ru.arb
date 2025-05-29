@@ -32,8 +32,12 @@
   "playerWins": "Игрок {player} выиграл!",
   "draw": "Ничья!",
   "currentTurn": "Текущий ход: {player}",
-  "language": "Язык",
+  "gameHistoryTitle": "Game History",
+  "emptyHistory": "History is empty",
+    "searchSettings": "Поиск настроек...",
+      "language": "Язык",
   "theme": "Тема",
-  "searchSettings": "Поиск настроек..."
+    "email" : "email"
+
 
 }

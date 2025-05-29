@@ -2,9 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'game_history_page.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'generated/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'main_menu_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +33,9 @@ void main() async {
   } else {
     await Firebase.initializeApp(); // Инициализация Firebase
   }
+  // Hive
+  await Hive.initFlutter(); // инициализация
+  await Hive.openBox('game_history'); // откроем box для хранения игр
   runApp( Provider<AuthService>(
       create: (_) => AuthService(), // <-- Make sure AuthService class exists
       child: const MyApp(),
@@ -58,9 +66,14 @@ class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.light;
   User? _user;
 
+  bool isOffline = false;
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+
   @override
   void initState() {
     super.initState();
+    _initConnectivity();
     _initializeUserSettings();
     FirebaseAuth.instance.userChanges().listen((user) {
       setState(() {
@@ -75,6 +88,25 @@ class _MyAppState extends State<MyApp> {
         });
       }
     });
+  }
+  
+  Future<void> _initConnectivity() async {
+    final result = await Connectivity().checkConnectivity();
+    setState(() {
+      isOffline = result == ConnectivityResult.none;
+    });
+
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((result) {
+      setState(() {
+        isOffline = result == ConnectivityResult.none;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
   }
 
   // Инициализация настроек пользователя при старте
@@ -95,7 +127,6 @@ class _MyAppState extends State<MyApp> {
   // Загрузка предпочтений пользователя из Firestore
   Future<void> _loadUserPreferences(User user) async {
     DocumentSnapshot userPreferences = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-
     if (userPreferences.exists) {
       var preferences = userPreferences.data() as Map<String, dynamic>;
       setState(() {
@@ -114,6 +145,7 @@ class _MyAppState extends State<MyApp> {
       }, SetOptions(merge: true));
     }
   }
+  
 
   void setLocale(Locale locale) {
     setState(() {
@@ -148,7 +180,7 @@ class _MyAppState extends State<MyApp> {
         Locale('ru'),
         Locale('kk'),
       ],
-      home: MainMenuPage(user: _user),
+      home: MainMenuPage(user: _user, isOffline: isOffline),
     );
   }
 }

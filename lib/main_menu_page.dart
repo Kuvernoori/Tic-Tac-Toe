@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'generated/app_localizations.dart';
+import 'game_history_page.dart';
 import 'about_page.dart';
 import 'settings_page.dart';
 import 'game_page.dart';
+import 'game_history.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
 import 'profile_page.dart';
 import 'auth_service.dart'; // добавим для signInWithGoogle
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,19 +16,29 @@ import 'loading_screen.dart'; // Add this line
 
 class MainMenuPage extends StatefulWidget {
   final User? user;
-  const MainMenuPage({super.key, this.user});
+  const MainMenuPage({super.key, this.user, this.isOffline = false});
+  final bool isOffline;
 
   @override
   State<MainMenuPage> createState() => _MainMenuPageState();
 }
 
 class _MainMenuPageState extends State<MainMenuPage> {
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   int _selectedIndex = 0;
   User? _user;
+  bool isOffline = false;
 
   @override
   void initState() {
     super.initState();
+        _connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      setState(() {
+        isOffline = (result == ConnectivityResult.none);
+      });
+    });
     _user = widget.user;
     FirebaseAuth.instance.authStateChanges().listen((user) {
       if (mounted) {
@@ -33,6 +49,20 @@ class _MainMenuPageState extends State<MainMenuPage> {
         });
       }
     });
+     _connectivitySubscription = Connectivity().onConnectivityChanged.listen((result) {
+      final offline = result == ConnectivityResult.none;
+      if (mounted) {
+        setState(() {
+          isOffline = offline;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
   }
 
   List<Widget> get _pages {
@@ -117,6 +147,14 @@ Future<void> _handleSignIn() async {
       ),
       body: Column(
         children: [
+          if (isOffline)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Offline Mode',
+                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+            ),
           if (_user == null)
             Container(
               width: double.infinity,

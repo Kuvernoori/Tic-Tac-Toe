@@ -32,8 +32,12 @@
   "playAgain": "Play Again",
   "playerWins": "Player {player} wins!",
   "draw": "It's a draw!",
-  "language": "Language",
+  "currentTurn": "Current turn: {player}",
+  "gameHistoryTitle": "Game History",
+    "searchSettings": "Search settings...",
+  "emptyHistory": "History is empty",
+    "language": "Language",
   "theme": "Theme",
-  "searchSettings": "Search settings...",
-  "currentTurn": "Current turn: {player}"
+  "email" : "email",
+  "profilePageTitle" : "Profile"
 }

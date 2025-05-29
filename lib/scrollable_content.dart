@@ -24,7 +24,7 @@ class ScrollableContent extends StatelessWidget {
                 ),
                 child: Text(
                   'Game ${index + 1}: Player X won',
-                  style: TextStyle(fontSize: constraints.maxWidth < 400 ? 14 : 16),
+                  style: TextStyle(fontSize: constraints.maxWidth < 500 ? 14 : 16),
                 ),
               );
             },
