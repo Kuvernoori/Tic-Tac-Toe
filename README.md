@@ -1,7 +1,7 @@
 # 🎮 Tic-Tac-Toe Flutter Game
 
-Welcome to our cross-platform **Tic-Tac-Toe (Крестики-Нолики)** game developed by **Group SE2329** from **Astana IT University**!  
-Built with ❤️ using **Flutter**, this project offers both offline and online gameplay, beautiful themes, multilingual support, and more.
+Welcome to our cross-platform **Tic-Tac-Toe** game developed by **Group SE2329** from **Astana IT University**!  
+Built with using **Flutter**, this project offers both offline and online gameplay, beautiful themes, multilingual support, and more.
 
 ---
 
