@@ -2,7 +2,7 @@
     package="com.aitu.tictactoe">
 
     <application
-        android:label="flutter_application_1"
+        android:label="TicTacToe"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         
